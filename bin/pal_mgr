@@ -1,0 +1,4 @@
+export PAL_PATH=/usr/local/PuckAutoLoader
+source $PAL_PATH/venv/bin/activate
+cd $PAL_PATH/PuckAutoLoader
+python puckautoloaderMgrApp.py

@@ -54,9 +54,11 @@ class Dewar:
             self.puckBackground[i] = int(self.config.items('BACKGROUND')[i][1])
 
     def set_config(self, value):
+        threshold = 0.06
         for i in range(len(self.config.items('BACKGROUND'))):
-            self.config['BACKGROUND'][self.puckPositionName[i]] = str(value[i])
-            self.puckBackground[i] = value[i]
+            bg = value[i] + value[i]*threshold
+            self.config['BACKGROUND'][self.puckPositionName[i]] = bg
+            self.puckBackground[i] = bg
 
         with open('utils/background.ini', 'w') as f:
             self.config.write(f)

@@ -16,7 +16,7 @@ from PyQt5.QtCore import Qt
 # import Opencv module
 import cv2
 
-from PuckAutoLoader.ui.mainWindowUser import *
+from PuckAutoLoader.ui.mainWindowTest import *
 from PuckAutoLoader.device.video import Video
 from PuckAutoLoader.db.ContainerDAO import ContainersDAO
 
@@ -61,12 +61,7 @@ class MainWindow(QMainWindow):
         self.ui.reset_btn.clicked.connect(self.reset)
         self.ui.barcode_text.setFocus()
 
-        self.ui.new_puck_position_label.setFont(QtGui.QFont("SansSerif", 40, QtGui.QFont.Bold))
-        self.ui.barcode_text.setFont(QtGui.QFont("SansSerif", 30, QtGui.QFont.Bold))
         self.ui.barcode_text.textChanged.connect(self.barcode_input)
-
-        self.ui.notice_label.setAlignment(Qt.AlignCenter)
-        self.ui.notice_label.setFont(QtGui.QFont("SansSerif", 20, QtGui.QFont.Bold))
 
     def barcode_input(self):
         if not self.edit and len(self.ui.barcode_text.toPlainText()) != 0:
@@ -81,7 +76,7 @@ class MainWindow(QMainWindow):
 
         self.puck_detection(self.image)
         self.find_new_puck(self.image)
-        self.image = cv2.resize(self.image, (self.image.shape[1] // 3, self.image.shape[0] // 3))
+        self.image = cv2.resize(self.image, (self.image.shape[1] // 2, self.image.shape[0] // 2))
 
         # convert image to RGB format
         self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
@@ -121,7 +116,7 @@ class MainWindow(QMainWindow):
 
     def find_new_puck(self, img):
         # Database Refresh time 1 hour
-        if (time.time() - self.db_refresh_timer) > 3600:
+        if (time.time() - self.db_refresh_timer) > 300:
             self.db_refresh_timer = time.time()
             self.containersDao.reconnect()
 
